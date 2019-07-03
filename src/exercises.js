@@ -17,12 +17,15 @@ export const logger = null;
 
 
 
-export const declarer = null;
+export const declarer = ()=>{
+  const nik = 'the value';
+  return nik;
+};
 // to pass this test, we need to declare a constant variable and return it
 
 
 
-export const stringer = null;
+export const stringer = ()=> 'anything';
 // this one will pass as long as we send back a string
 
 
@@ -41,21 +44,30 @@ export const oneLineLogReturn = null;
 /// STRINGS
 
 
-export const capslocker = null;
+export const capslocker = (str)=>{
+  const capslockStr = str.toUpperCase();
+  return capslockStr;
+};
 // this function needs to take an input param string and convert it to ALL UPPERCASE
 // example input: ('blah')
 // example output: 'BLAH'
 
 
 
-export const twoStringAdd = null;
+export const twoStringAdd = (str1, str2)=> str1 + str2;
 // we'll get two params (both strings)... we need to concatenate them together (in order)
 // example input: ('nik is the ', 'best')
 // example output: 'nik is the best'
 
 
 
-export const allStringAdd = null;
+export const allStringAdd = (...strs)=>{
+  let result = '';
+  for(let i=0; i<strs.length; i++){
+    result = result + strs[i];
+  }
+  return result;
+};
 // this is the same as the last one, but we will receive a different number of parameters (all strings) each time
 // we still need to concatenate them all together in order to pass the test
 // example input: ('nik', ' ', 'is', ' ', 'the', ' ', 'best', ' ', '...I know it...')
@@ -66,7 +78,9 @@ export const allStringAdd = null;
 
 
 
-export const stringContains = null;
+export const stringContains = (str1, str2)=>{
+  return str1.includes(str2);
+};
 // here we receive two strings
 // we want our function to return true when the first one contains the second one... and false otherwise
 // example input: ('funkadelic', 'funk')
@@ -76,7 +90,8 @@ export const stringContains = null;
 // exmaple output: false
 
 
-export const instancesInString = null;
+export const instancesInString = (text, searchTerm)=>
+  text.split(searchTerm).length -1;
 // here we receive two string inputs, we want to return the number of times we find the second string in the first
 // example input: ('blah blah blah monkey', 'blah')
 // example output: 3
@@ -108,7 +123,20 @@ export const darkenHexColor = null;
 // example output: '#bb6699'
 
 
-export const convertHexToRGBA = null;
+export const convertHexToRGBA = (hexColor)=>{
+  const hex = hexColor.slice(1);
+  let digits;
+
+  if(hex.length === 4){
+    digits = hex.split('').map(digit => digit+digit);
+  } else {
+    digits = hex.match(/.{1,2}/g);
+  }
+
+  const decimals = digits.map(digit => parseInt(digit, 16));
+
+  return 'rgba('+decimals.join(',')+')';
+};
 // here we will receive a #ABCD four digit CSS hex color, or a #AABBCCDD eight digit CSS hex color
 // our job is to return the equivalent rgba(123, 123, 123, 123) CSS color
 // example input: ('#8bc8')
@@ -156,7 +184,17 @@ export const twoNumberAdd = null;
 
 
 
-export const allNumberAdd = null;
+export const allNumberAdd = (...nums)=>
+  nums.reduce((total, num)=> total + num);
+
+
+(...nums)=> {
+  let total = 0;
+  for(let i=0; i<nums.length; i++){
+    total = total + nums[i];
+  }
+  return total;
+};
 // this is the same as the last one, but we will receive a different number of parameters (all numbers) each time
 // we still need to add them all together to pass the test
 // example input: (1, 10, 100, 1000)
@@ -167,7 +205,15 @@ export const allNumberAdd = null;
 
 
 
-export const greatest = null;
+export const greatest = (nums)=> Math.max(...nums);
+
+(nums)=> {
+  let max = nums[0];
+  for(let i=1; i<nums.length; i++){
+    if(nums[i] > max) max = nums[i];
+  }
+  return max;
+};
 // here we'll receive as input an array full of numbers
 // out job will be to return the greatest (closest to Infinity) from them
 // example input: ([ 1, 10, -100, 50 ])
@@ -239,14 +285,50 @@ export const isXYinRadius = null;
 /// ARRAYS
 
 
-export const twoArraysTogether = null;
+export const twoArraysTogether = (a1, a2)=> [...a1, ...a2];
+
+
+  (arr1, arr2)=> arr1.concat(arr2);
+
+
+(arr1, arr2)=>{
+  let result = [];
+  for(let i=0; i < arr1.length; i++){
+    result.push(arr1[i]);
+  }
+  for(let i=0; i < arr2.length; i++){
+    result.push(arr2[i]);
+  }
+  return result;
+};
 // here we will receive two arrays, we'll return one array that has all the elements from both arrays (in order)
 // example input: ([1, 2, 3], [4, 5, 'monkey'])
 // example output: [1, 2, 3, 4, 5, 'monkey']
 
 
 
-export const allArraysTogether = null;
+export const allArraysTogether = (...arrays)=>
+  arrays.reduce((result, array)=> [...result, ...array], []);
+
+
+(...arrays)=>{
+  let result = [];
+  for(let i=0; i<arrays.length; i++){
+    result = [...result, ...arrays[i]];
+  }
+  return result;
+};
+
+
+(...arrays)=>{
+  let result = [];
+  for(let i=0; i<arrays.length; i++){
+    for(let j=0; j<arrays[i].length; j++){
+      result.push(arrays[i][j]);
+    }
+  }
+  return result;
+};
 // this is the same as the last exercise, but we'll get a different number of input arrays each time
 // we'll still have to put the elements into one array (in order), now though from all the input arrays
 // example input: ([1, 2, 3], [4, 5, 'monkey'], ['bidness'])
@@ -321,8 +403,19 @@ export const dereferenceCircularArray = null;
 // example input: ({1, 2, 3, 'monkey'], 2)
 // example output: 3
 
+(people, ageLimit)=> {
+  let oldPeople = [];
+  for(let i=0; i<people.length; i++)
+    if( people[i].age >= ageLimit )
+      oldPeople.push(people[i]);
 
-export const filterByAge = null;
+  return oldPeople;
+};
+
+
+export const filterByAge = (people, ageLimit)=>
+  people.filter((person)=> person.age >= ageLimit);
+
 // here we'll receive an array of objects representing people
 // each will have an age number field... like { age: 22 }
 // we'll also receive a minimum age as a second param
@@ -332,11 +425,30 @@ export const filterByAge = null;
 
 
 
-export const filterByAgeDestructure = null;
+export const filterByAgeDestructure = (people, ageLimit)=>
+  people.filter(({ age })=> age >= ageLimit);
 // this exercise is exactly like the previous one, but here we are required to use a fat arrow with a destructured param
 
 
-export const filteredAges = null;
+export const filteredAges = (people, ageLimit)=>
+  people
+    .filter((person)=> person.age >= ageLimit) // filter returns the same type, so now we have a filtered list of people
+    .map((person)=> person.age); // then we map to ages... map returns a list of whatever the return type of our mapping function is
+
+(people, ageLimit)=>
+  people
+    .map((person)=> person.age) // we've mapped from people to ages
+    .filter((age)=> age >= ageLimit); // so now we can filter by age
+
+(people, ageLimit)=> {
+  let ages = [];
+  for(let i=0; i< people.length; i++){
+    if(people[i].age >= ageLimit){
+      ages.push( people[i].age );
+    }
+  }
+  return ages;
+}
 // this exercise is the same as the previous two, but here we are required to return the ages (not the people)
 // example input: ([{ age: 14 }, { age: 20 }, { age: 35 }], 18)
 // example output: [20, 35]
@@ -379,7 +491,24 @@ export const flattenArray = null;
 
 
 
-export const uniquifyArray = null;
+export const uniquifyArray = arr=> Array.from(new Set(arr));
+
+
+arr =>
+  arr.reduce((result, item)=>
+    (!result.includes(item)) ?
+      [...result, item] : result, []);
+
+
+(arr)=>{
+  let result = [];
+  for(let i=0; i< arr.length; i++){
+    if(!result.includes(arr[i])){
+      result.push(arr[i]);
+    }
+  }
+  return result;
+};
 // we will receive an array with arbitrary strings
 // our job is to take out duplicates
 // example input: (['nik is great', 'nik is great', 420, 2000, 2000])

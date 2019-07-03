@@ -62,7 +62,7 @@ answers.declareLogReturn && it('should declare a const, log it, and return it', 
   expect( logSpy ).toHaveBeenCalled();
 
   expect( logSpy.mock.calls[0][0] ).toEqual( ret );
-  
+
   logSpy.mockRestore();
 });
 
@@ -80,7 +80,7 @@ answers.oneLineLogReturn && it('should log and return a value all in one line', 
   expect( logSpy ).toHaveBeenCalled();
 
   expect( typeof logSpy.mock.calls[0][0].valueOf ).toEqual( 'function' );
-  
+
   logSpy.mockRestore();
 
   expect( typeof ret.valueOf ).toEqual( 'function' );
@@ -109,7 +109,7 @@ answers.twoStringAdd && it('adds two strings input', ()=>{
   ]);
 
   const output = testCases.map(a=> answers.twoStringAdd(...a));
-  
+
   output.forEach((o, i)=> expect( o ).toEqual( testCases[i][0] + testCases[i][1] ) );
 });
 
@@ -153,7 +153,7 @@ answers.darken3HashColor && it('returns a darker CSS 3-digit hashcolor by the am
   const testCases = [...Array(10)].map(()=> ['#' + randomHexString(3), Math.random()]);
 
   const output = testCases.map(t => answers.darken3HashColor(...t));
-  
+
   output.forEach((o, i)=> {
     expect(o).toEqual(
       '#' + testCases[i][0].slice(1).split('')
@@ -168,7 +168,7 @@ answers.darken6HashColor && it('returns a darker CSS 6-digit hashcolor by the am
   const testCases = [...Array(10)].map(()=> ['#' + randomHexString(6), Math.random()]);
 
   const output = testCases.map(t => answers.darken6HashColor(...t));
-  
+
   output.forEach((o, i)=> {
     expect(o).toEqual(
       '#' + [...Array(3)].map((_, j)=> testCases[i][0][1 + j*2] + testCases[i][0][2 + j*2])
@@ -201,7 +201,7 @@ answers.convertHexToRGBA && it('converts any CSS hash color to the equivalent rg
     .map(()=> Math.floor( Math.random()*16 ).toString(16) ).join('') );
 
   const output = testCases.map( answers.convertHexToRGBA );
-  
+
   output.forEach((o, i)=> expect(o.replace(/\s/g, '')).toEqual(
     'rgba(' + (
       ( (testCases[i].length === 5) ?
@@ -227,7 +227,7 @@ answers.splitWords && it('should return an array of the words from the sentence'
   const testCases = [...Array(10)].map(()=>
     [...Array( Math.floor( Math.random()*10 + 1 ))].map(()=> randomStringWord(Math.floor(Math.random()*5 + 5))).join(' ')
   );
-  
+
   const output = testCases.map(answers.splitWords);
 
   output.forEach((o, i)=> expect(o).toEqual( testCases[i].split(' ') ));
@@ -237,10 +237,10 @@ answers.joinWords && it('should take an array of words and put them together as 
   const testCases = [...Array(10)].map(()=>
     [...Array( Math.floor( Math.random()*10 + 1 ))].map(()=> randomStringWord(Math.floor(Math.random()*5 + 5)))
   );
-  
+
   const output = testCases.map(answers.joinWords);
 
-  output.forEach((o, i)=> expect(o).toEqual( testCases[i].join(' ') ));  
+  output.forEach((o, i)=> expect(o).toEqual( testCases[i].join(' ') ));
 });
 
 
@@ -308,7 +308,7 @@ answers.indexOfGreatest && it('returns the index of the greatest number in the a
 
 answers.convertToInt && it('converts an input number to an integer', ()=>{
   const testCases = [...Array(10)].map(()=> Math.random() * 100 - 50);
-  
+
   const output = testCases.map( t => answers.convertToInt(t) );
 
   output.forEach((o, i)=> expect( [ Math.floor(testCases[i]), Math.ceil(testCases[i]) ] ).toContain( o ) );
@@ -326,7 +326,7 @@ answers.formatAsMoney && it('should output $10.25 our input formatted as a price
 
 answers.inequality && it('should tell us which inequality operator applies (>, < or =) as a string', ()=>{
   let temp;
-  
+
   const testCases = [...Array(10)].map(()=> (
     (Math.random() < 0.33) ? [ (temp = Math.random()), temp ] : [Math.random(), Math.random()]
   ));
@@ -363,9 +363,8 @@ answers.isXYinRadius && it('should determine if the point is inside the circle (
 
 /// ARRAYS
 
-
 answers.twoArraysTogether && it('puts two arrays together', ()=>{
-  const testCases = [...Array(10)].map(()=> randomString(10).split(''), randomString(10).split('') );
+  const testCases = [...Array(10)].map(()=> [randomString(10).split(''), randomString(10).split('')] );
 
   const output = testCases.map( t => answers.twoArraysTogether(...t) );
 
@@ -391,7 +390,7 @@ answers.alphebetize && it('alphebetizes strings', ()=>{
   ) );
 
   const output = testCases.map(a=> answers.alphebetize(a));
-  
+
   output.forEach((o, i)=> expect(o).toEqual( testCases[i].sort() ));
 });
 
@@ -421,7 +420,7 @@ answers.filterByType && it('filters out by type dynamically', ()=>{
 
 answers.arrayContains && it('returns true only if the array contains the second param', ()=>{
   let temp;
-  
+
   const testCases = [...Array(10)].map(()=> [
     (temp = [...Array(10)].map(()=> randomStringWord(Math.floor(Math.random()*10 + 10))) ),
     Math.random() > 0.5 ? temp[ Math.floor(Math.random()*10) ] : randomStringWord(Math.floor(Math.random()*10 + 10)),
@@ -490,7 +489,7 @@ answers.filterByAgeDestructure && it('filters an array of people by a minimum ag
   const src = answers.filterByAgeDestructure.toString();
 
   expect( src ).toMatch(/\({\s*age\s*}\)\s*=>/);
-  
+
   const testCases = [...Array(10)].map(()=> [
     [...Array(10)].map(()=> ({ age: Math.random() > 0.5 ? Math.floor(Math.random() * 30) : Math.random()*20 + 20 }) ),
     Math.random() > 0.5 ? Math.floor(Math.random() * 50) : Math.random() * 50,
@@ -519,7 +518,7 @@ answers.filteredAgesAverage && it('filters an array of people by a minimum age, 
   ]);
 
   const output = testCases.map(t => answers.filteredAgesAverage(t[0], t[1]));
-  
+
   output.forEach((o, i)=> expect(o).toEqual( testCases[i][0]
     .map(p => p.age)
     .filter(age => age >= testCases[i][1])
@@ -532,14 +531,14 @@ answers.filteredAgesAverageOneLine && it('filters an array of people by a minimu
   const src = answers.filteredAgesAverageOneLine.toString();
 
   expect(src).not.toMatch(/=>\s*{/);
-  
+
   const testCases = [...Array(10)].map(()=> [
     [...Array(10)].map(()=> ({ age: Math.random() > 0.5 ? Math.floor(Math.random() * 30) : Math.random()*20 + 20 }) ),
     Math.random() > 0.5 ? Math.floor(Math.random() * 50) : Math.random() * 50,
   ]);
 
   const output = testCases.map(t => answers.filteredAgesAverageOneLine(t[0], t[1]));
-  
+
   output.forEach((o, i)=> expect(o).toEqual( testCases[i][0]
     .map(p => p.age)
     .filter(age => age >= testCases[i][1])
@@ -730,7 +729,7 @@ answers.dictionaryLogger && it('decorates the functions with a logger', ()=>{
     Object.keys(fns).forEach(fnKey => {
       const logSpy = jest.spyOn(global.console, 'log');
       const args = [...Array(5)].map(()=> randomStringWord(5));
-    
+
       fns[fnKey](...args);
 
       expect( logSpy ).toHaveBeenCalled();
