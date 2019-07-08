@@ -166,7 +166,37 @@ export const joinWords = null;
 // example output: 'nik is hungry all of a sudden'
 
 
-export const censorSentence = null;
+export const censorSentence = (sentence, badWords)=>
+  sentence.split(' ')
+          .filter(word => badWords.indexOf(word) === -1)
+          .join(' ');
+
+
+
+(sentence, badWords)=>{
+  const words = sentence.split(' ');
+  const result = [];
+
+  for(let i=0; i<words.length; i++){
+    if( badWords.indexOf(words[i]) === -1 ) result.push(words[i])
+  }
+  return result.join(' ');
+};
+
+
+(sentence, badWords)=>{
+  const words = sentence.split(' ');
+  const result = [];
+
+  for(let i=0; i<words.length; i++){
+    let isBadWord = false;
+    for(let j=0; j<badWords.length; j++){
+      if(words[i] === badWords[j]) isBadWord = true;
+    }
+    if( !isBadWord ) result.push(words[i])
+  }
+  return result.join(' ');
+};
 // here we will receive a sentence (space spearated words) and an array of words to censor
 // we should return a new sentence with the words removed (not replaced with &*#@ or the like)
 // example input: ('dirty girls like filthy beats', ['dirty', 'filthy'])
@@ -229,21 +259,45 @@ export const biggest = null;
 
 
 
-export const indexOfGreatest = null;
+export const indexOfGreatest = (numbers)=>
+  numbers.indexOf( Math.max(...numbers) );
+
+
+(numbers)=>{
+  const max = Math.max(...numbers);
+  return numbers.indexOf(max);
+};
+
+
+(numbers)=> {
+  let max = numbers[0];
+  for(let i=0; i<numbers.length; i++){
+    if(max < numbers[i]) max = numbers[i];
+  }
+  return numbers.indexOf(max);
+};
 // here we'll receive as input an array full of numbers
 // out job will be to return the index in the array of the greatest (closest to Infinity) from them
 // example input: ([ 1, 10, -100, 50 ])
 // example output: 3
 
 
-export const convertToInt = null;
+export const convertToInt =
+
+(numbers)=>{
+  let result = [];
+  for(let i=0; i<numbers.length; i++){
+    result.push(Math.round(numbers[i]))
+  }
+  return result;
+};
 // here we'll receive as input an array full of numbers
-// out job will be to convert them to an integer close to the original value
+// our job will be to convert them to an integer close to the original value
 // example input: ([ 1.5, 10, -10.1233, 5.9 ])
 // example output: [1, 10, -10, 6]
 
 
-export const formatAsMoney = null;
+export const formatAsMoney = (money)=> '$'+money.toFixed(2);
 // here we'll receive a float (a decimal number) or integer, our job is to return a formatted price string like $10.24
 // example input: (3.5013)
 // exmaple output '$3.50'
@@ -252,8 +306,22 @@ export const formatAsMoney = null;
 // example output: '$999.00'
 
 
-export const inequality = null;
-// here we'll receive two numbers. If the first is greater, return '>', if the second return '<', if equal return '='
+export const inequality = (num1, num2)=>
+  (num1 > num2) ? '>' :
+  (num1 < num2) ? '<' : '=';
+
+
+(num1, num2)=>{
+  if(num1 > num2) {
+    return '>';
+  } else if( num1 < num2 ){
+    return '<';
+  } else {
+    return '=';
+  }
+};
+// here we'll receive two numbers. If the first is greater, return '>',
+// if the second return '<', if equal return '='
 // example input: (13, 5)
 // example output: '>'
 
@@ -274,7 +342,7 @@ export const isStringIntOrFloat = null;
 // example output: 'float'
 
 
-export const isXYinRadius = null;
+export const isXYinRadius = (x, y, r)=> (x*x + y*y < r*r);
 // here we will receive three number inputs: (x, y, r)
 // our job is to determine if the coordinate (x, y) is within radius r of the origin (0, 0)
 // and return a Boolean of whether it is
@@ -346,22 +414,45 @@ export const alphebetize = null;
 
 
 
-export const filterStrings = null;
-// here we receive an array that has strings and numbers (and maybe other stypes of stuff)
+export const filterStrings = (arr)=>
+  arr.filter(item=> ((typeof item) !== 'string'));
+
+
+
+(arr)=>{
+  return arr.filter(item=> {
+    return ((typeof item) !== 'string');
+  });
+};
+
+
+(arr)=>{
+  let result = [];
+  for(let i=0; i<arr.length; i++){
+    if(typeof arr[i] !== 'string'){
+      result.push(arr[i]);
+    }
+  }
+  return result;
+};
+// here we receive an array that has strings and numbers (and maybe other types of stuff)
 // our job is to return an array with all the elements from the input that aren't strings (in order)
 // example input: (['blah', 1, {}, 'rawr'])
 // example output: [1, {}]
 
 
 
-
-export const filterByType = null;
+export const filterByType = (arr, type)=>{
+  let result = [];
+  for(let i=arr.length; i-->0;){
+    if(typeof arr[i] !== type) result.unshift(arr[i]);
+  }
+  return result;
+};
 // here we want to be able to choose the type of value to filter out
 // the first param is still the array with everything in it, the second param is a type (string) to filter out
 // example input: (['blah', 1, {}, 'rawr'], 'number')
 // example output: ['blah', {}, 'rawr']
-
-
 
 export const arrayContains = null;
 // here we receive an array and some value to try to find in that array
@@ -393,7 +484,16 @@ export const leftTruncate = null;
 // example output: [5, 6, 7, 8, 9, 'monkey']
 
 
-export const dereferenceCircularArray = null;
+
+export const dereferenceCircularArray = (array, index)=>
+  array[index % array.length];
+
+
+(array, index)=>{
+  let indexToTry = index;
+  while(indexToTry >= array.length) indexToTry -= array.length;
+  return array[indexToTry];
+};
 // here we will get an array and an index to read out of the array
 // however, the index may be past the end of the array
 // when it is, we want to treat the array as a circle (array[array.length] === array[0]) and loop around it as long as we need
@@ -402,6 +502,14 @@ export const dereferenceCircularArray = null;
 
 // example input: ({1, 2, 3, 'monkey'], 2)
 // example output: 3
+
+
+
+
+
+
+
+
 
 (people, ageLimit)=> {
   let oldPeople = [];
@@ -484,7 +592,16 @@ export const arrayExcess = null;
 // example output: [8, 'platypus']
 
 
-export const flattenArray = null;
+export const flattenArray =
+  arrays => arrays.reduce((result, array)=> result.concat(array), []);
+
+
+(arrays)=>{
+  let result = [];
+  for(let i=0; i< arrays.length; i++)
+    result = result.concat(arrays[i]);
+  return result;
+};
 // here we receive an array of arrays, and our job is to return all the contents from the internal arrays in one array
 // example input: ([ [1, 2, 3, 'monkey'], [4, 5, 6, 'platypus'] ])
 // example output: [1, 2, 3, 'monkey', 4, 5, 6, 'platypus']
@@ -598,3 +715,35 @@ export const dictionaryLogger = null;
 // aka we want to replace each function with a new function that logs the params, then calls the original function
 // example input: ({ callUrl: url=> fetch(url) })
 // example output: { callUrl: (...a)=> { console.log(...a); return (url => fetch(url))(...a); } }
+
+
+
+function justForFun(){
+  const people = [];
+  people.map(person=> ({
+    ...person,
+    knowsJavascript: true,
+  }))
+
+  people.reduce((total, person)=> total + person.money, 0)
+
+  fetch('/user')
+    .then(response => response.json())
+    .then(user => console.log(user))
+
+
+  const later = (value, delay)=> (new Promise((resolve, reject)=> {
+    setTimeout(()=> resolve(value), delay);
+  }));
+
+  Promise.all([
+    later('blah', 3000),
+    later('hmm', 2000),
+    later('rawr', 4000),
+  ]).then(([blah, hmm, rawr]) => {
+    console.log(blah);
+    console.log(hmm);
+    console.log(rawr);
+  });
+
+}

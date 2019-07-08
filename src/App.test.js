@@ -307,11 +307,11 @@ answers.indexOfGreatest && it('returns the index of the greatest number in the a
 
 
 answers.convertToInt && it('converts an input number to an integer', ()=>{
-  const testCases = [...Array(10)].map(()=> Math.random() * 100 - 50);
+  const testCases = [...Array(10)].map(()=> [...Array(10)].map(()=> Math.random() * 100 - 50) );
 
   const output = testCases.map( t => answers.convertToInt(t) );
 
-  output.forEach((o, i)=> expect( [ Math.floor(testCases[i]), Math.ceil(testCases[i]) ] ).toContain( o ) );
+  output.forEach((o, i)=> o.forEach((oo, oi)=> expect([ Math.floor(testCases[i][oi]), Math.ceil(testCases[i][oi]) ]).toContain( oo ) ));
 });
 
 
