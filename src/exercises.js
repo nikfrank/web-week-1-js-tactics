@@ -670,14 +670,43 @@ export const mergeObjects = null
 // example output: { nik: 'is great', bender: 'still great' }
 
 
-export const deepDereference = null;
+export const deepDereference = (obj, keys)=>
+  keys.reduce((p, key)=> p[key], obj);
+
+
+(obj, keys)=>{
+  let p = obj;
+  for(let i=0; i<(keys.length); i++){
+    p = p[keys[i]]
+  }
+  return p;
+};
 // here we will receie an object and an array of keys
 // our job is to read the nested value inside the object by dereferencing each key in the array
 // example input: ({ nik: { is: { great: true }}}, ['nik', 'is', 'great'])
 // example output: true
 
 
-export const upperCaseObjectMap = null;
+export const upperCaseObjectMap = obj=>
+  Object.keys(obj).reduce((newObj, key)=> ({
+    ...newObj, [key]: obj[key].toUpperCase()
+  }), {});
+
+obj=>
+  Object.keys(obj).reduce((newObj, key)=> {
+    newObj[key] = obj[key].toUpperCase();
+    return newObj;
+  }, {});
+
+
+obj=>{
+  let newObj = {};
+  const keys = Object.keys(obj);
+  for(let i=0; i<(keys.length); i++){
+    newObj[keys[i]] = obj[keys[i]].toUpperCase();
+  }
+  return newObj;
+};
 // here we will receive a dictionary (an object whose values are all the same type)
 // the dictionary will have lowercase strings as that value
 // our job is to map those strings to uppercase in place, returning the dictionary object full of uppercase strings
