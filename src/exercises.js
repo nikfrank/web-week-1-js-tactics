@@ -146,7 +146,25 @@ export const convertHexToRGBA = (hexColor)=>{
 // example output: 'rgba(198,78,130,189)'
 
 
-export const convertRGBAtoHex = null;
+export const convertRGBAtoHex = rgba => '#'+ rgba.slice(5, -1)
+                                        .split(',')
+                                        .map(ns => ('0'+parseInt(ns).toString(16)).slice(-2))
+                                        .join('');
+
+
+
+
+(rgba)=>{
+  const stringOfNumbers = rgba.slice(5, -1);
+  const arrayOfNumberStrings = stringOfNumbers.split(',');
+  const numbers = arrayOfNumberStrings.map(ns => parseInt(ns));
+  const hexStrings = numbers.map(n => n.toString(16));
+
+  const twoDigitHexStrings = hexStrings.map(hs => ('0'+hs).slice(-2));
+  const hashColor = '#' + twoDigitHexStrings.join('');
+
+  return hashColor;
+};
 // here we will receive an 'rgba(123, 123, 123, 123)' CSS color
 // our job is to return the equivalent 8 digit hex color
 // example input: ('rgba(90,30,14,249)')
@@ -332,13 +350,15 @@ export const inequality = (num1, num2)=>
 // example output: '='
 
 
-export const isStringIntOrFloat = null;
+export const isStringIntOrFloat = str =>
+  console.log(str, str.indexOf('.') === -1 ? 'int' : 'float')||
+  str.indexOf('.') === -1 ? 'int' : 'float';
 // here we will receive a string which is either an int or a float (casted into a string)
 // we must respond 'int' if it is an int, 'float' if it is a decimal number (float)
-// example input: (01923)
+// example input: ('01923')
 // exmaple output: 'int'
 
-// example input: (123.123)
+// example input: ('123.123')
 // example output: 'float'
 
 
@@ -579,7 +599,12 @@ export const filteredAgesAverageOneLine = null;
 
 
 
-export const longerArray = null;
+export const longerArray = (r1, r2)=> r1.length > r2.length ? r1 : r2;
+
+(r1, r2)=>{
+  if( r1.length > r2.length ) return r1;
+  else return r2;
+};
 // here we receive two arrays of different length. All we need to do is return the longer of the two!
 // example input: ([1, 2, 3, 'monkey'], [4, 5, 'platypus'])
 // example output: [1, 2, 3, 'monkey']
@@ -644,7 +669,12 @@ export const dereference = null;
 
 
 
-export const objectTypeOrArray = null;
+export const objectTypeOrArray = input =>
+  input.constructor == Array ? 'array' : typeof input;
+
+
+(input)=>
+  Array.isArray(input) ? 'array' : typeof input;
 // here we receive some value whose type we don't know
 // our job is return the type of the object, except if it's an array we want to return 'array'
 // which is what most people think javascript does for us!
@@ -655,7 +685,13 @@ export const objectTypeOrArray = null;
 // example output: 'array'
 
 
-export const flattenObject = null;
+export const flattenObject = obj=> {
+  let result = {};
+  for( let key in obj ){
+    result = { ...obj[key], ...result };
+  }
+  return result;
+};
 // here we'll receive a nested object like { nik: { is: 'great' }, bender: { 'is also': 'great' } }
 // we want to return a new object with all the contents of the inner objects merged together
 // this will flatten the object from two levels deep to one

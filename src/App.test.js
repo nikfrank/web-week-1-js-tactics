@@ -345,7 +345,7 @@ answers.isStringIntOrFloat && it('returns a string explaining which kind of numb
 
   const output = testCases.map(answers.isStringIntOrFloat);
 
-  output.forEach((o, i)=> expect(o).toEqual( Math.floor(parseInt(testCases[i])) === parseInt(testCases[i]) ? 'int' : 'float' ));
+  output.forEach((o, i)=> expect(o).toEqual( Math.floor(parseInt(testCases[i])) === 1*(testCases[i]) ? 'int' : 'float' ));
 });
 
 
